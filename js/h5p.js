@@ -1,7 +1,9 @@
 /*jshint multistr: true */
 // TODO: Should we split up the generic parts needed by the editor(and others), and the parts needed to "run" H5Ps?
 var H5P = H5P || {};
-
+console.debug("H5P JS called");
+//check whether the current and parent(if parent has child iframe) window is top, by Sathish S T
+H5P.isTopWindow = IS_TOP_WINDOW;
 // Determine if we're inside an iframe.
 H5P.isFramed = (window.self !== window.top);
 
@@ -37,30 +39,34 @@ H5P.opened = {};
  */
 H5P.init = function () {
   // Useful jQuery object.
-  H5P.$body = H5P.jQuery(document.body);
+  H5P.$body = H5P.jQuery('body');
 
   // Prepare internal resizer for content.
-  var $window = H5P.jQuery(window.parent);
+  //var $window = H5P.jQuery(window.parent);
 
+  /*Modified by Sathish Thangathurai for $window variable*/
+  var $window = (H5P.isTopWindow) ? H5P.jQuery(window.top) : H5P.jQuery(window);
   // H5Ps added in normal DIV.
   var $containers = H5P.jQuery(".h5p-content").each(function () {
     var $element = H5P.jQuery(this);
     var $container = H5P.jQuery('<div class="h5p-container"></div>').appendTo($element);
     var contentId = $element.data('content-id');
     var contentData = H5PIntegration.getContentData(contentId);
+      console.log(contentData);
     if (contentData === undefined) {
       return H5P.error('No data for content id ' + contentId + '. Perhaps the library is gone?');
     }
     var library = {
       library: contentData.library,
       params: JSON.parse(contentData.jsonContent)
+       // params: H5P.jQuery.parseJSON(contentData.jsonContent)
     };
 
     // Create new instance.
     var instance = H5P.newRunnable(library, contentId, $container, true);
 
     // Check if we should add and display a fullscreen button for this H5P.
-    if (contentData.fullScreen == 1) {
+    if (contentData.fullScreen == 1 && H5P.isTopWindow) {
       H5P.jQuery('<div class="h5p-content-controls"><div role="button" tabindex="1" class="h5p-enable-fullscreen" title="' + H5P.t('fullscreen') + '"></div></div>').prependTo($container).children().click(function () {
         H5P.fullScreen($container, instance);
       });
@@ -100,13 +106,16 @@ H5P.init = function () {
       }
     });
 
-    if (H5P.isFramed) {
+    if (H5P.isFramed && H5P.isTopWindow) {
       // Make it possible to resize the iframe when the content changes size. This way we get no scrollbars.
       var iframe = window.parent.document.getElementById('h5p-iframe-' + contentId);
       var resizeIframe = function () {
-        if (window.parent.H5P.isFullscreen) {
-          return; // Skip if full screen.
-        }
+//        if (window.parent.H5P.isFullscreen) {
+//          return; // Skip if full screen.
+//        }
+          if (H5P.isTopWindow && window.top.H5P.isFullscreen) {
+              return; // Skip if full screen.
+          }
 
         // Retain parent size to avoid jumping/scrolling
         var parentHeight = iframe.parentElement.style.height;
