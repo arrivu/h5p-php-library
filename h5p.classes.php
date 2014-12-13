@@ -1350,88 +1350,88 @@ Class H5PExport {
         return str_replace(DIRECTORY_SEPARATOR, '/', $zipPath);
     }
 
-//    /**
-//     * Return path to h5p package.
-//     *
-//     * Creates package if not already created
-//     *
-//     * @param array $content
-//     * @return string
-//     */
-//    public function createExportFile($content) {
-//        $h5pDir = $this->h5pF->getH5pPath() . DIRECTORY_SEPARATOR;
-//        $tempPath = $h5pDir . 'temp' . DIRECTORY_SEPARATOR . $content['id'];
-//        $zipPath = $h5pDir . 'exports' . DIRECTORY_SEPARATOR . $content['id'] . '.h5p';
-//
-//        // Temp dir to put the h5p files in
-//        @mkdir($tempPath, 0777, TRUE);
-//        @mkdir($h5pDir . 'exports', 0777, TRUE);
-//
-//        // Create content folder
-//        if ($this->h5pC->copyFileTree($h5pDir . 'content' . DIRECTORY_SEPARATOR . $content['id'], $tempPath . DIRECTORY_SEPARATOR . 'content') === FALSE) {
-//            return FALSE;
-//        }
-//        file_put_contents($tempPath . DIRECTORY_SEPARATOR . 'content' . DIRECTORY_SEPARATOR . 'content.json', $content['params']);
-//
-//        // Make embedTypes into an array
-//        $embedTypes = explode(', ', $content['embedType']); // Won't content always be embedded in one way?
-//
-//        // Build h5p.json
-//        $h5pJson = array (
-//            'title' => $content['title'],
-//            // TODO - stop using 'und', this is not the preferred way.
-//            // Either remove language from the json if not existing, or use "language": null
-//            'language' => (isset($content['language']) && strlen(trim($content['language'])) !== 0) ? $content['language'] : 'und',
-//            'mainLibrary' => $content['library']['name'],
-//            'embedTypes' => $embedTypes,
-//        );
-//
-//        // Add dependencies to h5p
-//        foreach ($content['dependencies'] as $dependency) {
-//            $library = $dependency['library'];
-//
-//            // Copy library to h5p
-//            $source = isset($library['path']) ? $library['path'] : $h5pDir . 'libraries' . DIRECTORY_SEPARATOR . H5PCore::libraryToString($library, TRUE);
-//            $destination = $tempPath . DIRECTORY_SEPARATOR . $library['machineName'];
-//            $this->h5pC->copyFileTree($source, $destination);
-//
-//            // Do not add editor dependencies to h5p json.
-//            if ($dependency['type'] === 'editor') {
-//                continue;
-//            }
-//
-//            $h5pJson[$dependency['type'] . 'Dependencies'][] = array(
-//                'machineName' => $library['machineName'],
-//                'majorVersion' => $library['majorVersion'],
-//                'minorVersion' => $library['minorVersion']
-//            );
-//        }
-//
-//        // Save h5p.json
-//        $results = print_r(json_encode($h5pJson), true);
-//        file_put_contents($tempPath . DIRECTORY_SEPARATOR . 'h5p.json', $results);
-//
-//        // Create new zip instance.
-//        $zip = new ZipArchive();
-//        $zip->open($zipPath, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
-//
-//        // Get all files and folders in $tempPath
-//        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tempPath . DIRECTORY_SEPARATOR));
-//        // Add files to zip
-//        foreach ($iterator as $key => $value) {
-//            $test = '.';
-//            // Do not add the folders '.' and '..' to the zip. This will make zip invalid.
-//            if (substr_compare($key, $test, -strlen($test), strlen($test)) !== 0) {
-//                // Get files path in $tempPath
-//                $filePath = explode($tempPath . DIRECTORY_SEPARATOR, $key);
-//                // Add files to the zip with the intended file-structure
-//                $zip->addFile($key, $filePath[1]);
-//            }
-//        }
-//        // Close zip and remove temp dir
-//        $zip->close();
-//        H5PCore::deleteFileTree($tempPath);
-//    }
+    /**
+     * Return path to h5p package.
+     *
+     * Creates package if not already created
+     *
+     * @param array $content
+     * @return string
+     */
+    public function createExportFile($content) {
+        $h5pDir = $this->h5pF->getH5pPath() . DIRECTORY_SEPARATOR;
+        $tempPath = $h5pDir . 'temp' . DIRECTORY_SEPARATOR . $content['id'];
+        $zipPath = $h5pDir . 'exports' . DIRECTORY_SEPARATOR . $content['id'] . '.h5p';
+
+        // Temp dir to put the h5p files in
+        @mkdir($tempPath, 0777, TRUE);
+        @mkdir($h5pDir . 'exports', 0777, TRUE);
+
+        // Create content folder
+        if ($this->h5pC->copyFileTree($h5pDir . 'content' . DIRECTORY_SEPARATOR . $content['id'], $tempPath . DIRECTORY_SEPARATOR . 'content') === FALSE) {
+            return FALSE;
+        }
+        file_put_contents($tempPath . DIRECTORY_SEPARATOR . 'content' . DIRECTORY_SEPARATOR . 'content.json', $content['params']);
+
+        // Make embedTypes into an array
+        $embedTypes = explode(', ', $content['embedType']); // Won't content always be embedded in one way?
+
+        // Build h5p.json
+        $h5pJson = array (
+            'title' => $content['title'],
+            // TODO - stop using 'und', this is not the preferred way.
+            // Either remove language from the json if not existing, or use "language": null
+            'language' => (isset($content['language']) && strlen(trim($content['language'])) !== 0) ? $content['language'] : 'und',
+            'mainLibrary' => $content['library']['name'],
+            'embedTypes' => $embedTypes,
+        );
+
+        // Add dependencies to h5p
+        foreach ($content['dependencies'] as $dependency) {
+            $library = $dependency['library'];
+
+            // Copy library to h5p
+            $source = isset($library['path']) ? $library['path'] : $h5pDir . 'libraries' . DIRECTORY_SEPARATOR . H5PCore::libraryToString($library, TRUE);
+            $destination = $tempPath . DIRECTORY_SEPARATOR . $library['machineName'];
+            $this->h5pC->copyFileTree($source, $destination);
+
+            // Do not add editor dependencies to h5p json.
+            if ($dependency['type'] === 'editor') {
+                continue;
+            }
+
+            $h5pJson[$dependency['type'] . 'Dependencies'][] = array(
+                'machineName' => $library['machineName'],
+                'majorVersion' => $library['majorVersion'],
+                'minorVersion' => $library['minorVersion']
+            );
+        }
+
+        // Save h5p.json
+        $results = print_r(json_encode($h5pJson), true);
+        file_put_contents($tempPath . DIRECTORY_SEPARATOR . 'h5p.json', $results);
+
+        // Create new zip instance.
+        $zip = new ZipArchive();
+        $zip->open($zipPath, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
+
+        // Get all files and folders in $tempPath
+        $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($tempPath . DIRECTORY_SEPARATOR));
+        // Add files to zip
+        foreach ($iterator as $key => $value) {
+            $test = '.';
+            // Do not add the folders '.' and '..' to the zip. This will make zip invalid.
+            if (substr_compare($key, $test, -strlen($test), strlen($test)) !== 0) {
+                // Get files path in $tempPath
+                $filePath = explode($tempPath . DIRECTORY_SEPARATOR, $key);
+                // Add files to the zip with the intended file-structure
+                $zip->addFile($key, $filePath[1]);
+            }
+        }
+        // Close zip and remove temp dir
+        $zip->close();
+        H5PCore::deleteFileTree($tempPath);
+    }
 
     /**
      * Delete .h5p file
