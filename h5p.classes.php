@@ -2158,7 +2158,7 @@ class H5PContentValidator {
     public $h5pC;
     private $typeMap;
     private $semanticsCache;
-//    private $libraries, $dependencies;
+    private $libraries, $dependencies;
 
     /**
      * Constructor for the H5PContentValidator
@@ -2198,14 +2198,14 @@ class H5PContentValidator {
         $this->semanticsCache = array();
     }
 
-//    /**
-//     * Get the flat dependecy tree.
-//     *
-//     * @return array
-//     */
-//    public function getDependencies() {
-//        return $this->dependencies;
-//    }
+    /**
+     * Get the flat dependecy tree.
+     *
+     * @return array
+     */
+    public function getDependencies() {
+        return $this->dependencies;
+    }
 
 
     /**
