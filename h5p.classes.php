@@ -1571,48 +1571,48 @@ class H5PCore {
         return $content;
     }
 
-//    /**
-//     * Filter content run parameters, rebuild content dependecy cache and export file.
-//     *
-//     * @param Object $content
-//     * @return Object NULL on failure.
-//     */
-//    public function filterParameters($content) {
-//        if (isset($content['filtered']) && $content['filtered'] !== '') {
-//            return $content['filtered'];
-//        }
-//
-//        // Validate and filter against main library semantics.
-//        $validator = new H5PContentValidator($this->h5pF, $this);
-//        $params = (object) array(
-//            'library' => H5PCore::libraryToString($content['library']),
-//            'params' => json_decode($content['params'])
-//        );
-//        $validator->validateLibrary($params, (object) array('options' => array($params->library)));
-//
-//        $params = json_encode($params->params);
-//
-//        // Update content dependencies.
-//        $content['dependencies'] = $validator->getDependencies();
-//
-//        // Sometimes the parameters are filtered before content has been created
-//        if ($content['id']) {
-//            $this->h5pF->deleteLibraryUsage($content['id']);
-//            $this->h5pF->saveLibraryUsage($content['id'], $content['dependencies']);
-//
-//            if ($this->exportEnabled) {
-//                // Recreate export file
-//                $exporter = new H5PExport($this->h5pF, $this);
-//                $exporter->createExportFile($content);
-//
-//                // TODO: Should we rather create the file once first accessed, like imagecache?
-//            }
-//
-//            // Cache.
-//            $this->h5pF->setFilteredParameters($content['id'], $params);
-//        }
-//        return $params;
-//    }
+    /**
+     * Filter content run parameters, rebuild content dependecy cache and export file.
+     *
+     * @param Object $content
+     * @return Object NULL on failure.
+     */
+    public function filterParameters($content) {
+        if (isset($content['filtered']) && $content['filtered'] !== '') {
+            return $content['filtered'];
+        }
+
+        // Validate and filter against main library semantics.
+        $validator = new H5PContentValidator($this->h5pF, $this);
+        $params = (object) array(
+            'library' => H5PCore::libraryToString($content['library']),
+            'params' => json_decode($content['params'])
+        );
+        $validator->validateLibrary($params, (object) array('options' => array($params->library)));
+
+        $params = json_encode($params->params);
+
+        // Update content dependencies.
+        $content['dependencies'] = $validator->getDependencies();
+
+        // Sometimes the parameters are filtered before content has been created
+        if ($content['id']) {
+            $this->h5pF->deleteLibraryUsage($content['id']);
+            $this->h5pF->saveLibraryUsage($content['id'], $content['dependencies']);
+
+            if ($this->exportEnabled) {
+                // Recreate export file
+                $exporter = new H5PExport($this->h5pF, $this);
+                $exporter->createExportFile($content);
+
+                // TODO: Should we rather create the file once first accessed, like imagecache?
+            }
+
+            // Cache.
+            $this->h5pF->setFilteredParameters($content['id'], $params);
+        }
+        return $params;
+    }
 
 
     /**
