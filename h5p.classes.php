@@ -2,35 +2,34 @@
 /**
  * Interface defining functions the h5p library needs the framework to implement
  */
-//echo "Interface";
 interface H5PFrameworkInterface {
 
-//    /**
-//     * Returns info for the current platform
-//     *
-//     * @return array
-//     *   An associative array containing:
-//     *   - name: The name of the plattform, for instance "Wordpress"
-//     *   - version: The version of the pattform, for instance "4.0"
-//     *   - h5pVersion: The version of the H5P plugin/module
-//     */
-//    public function getPlatformInfo();
-//
-//    /**
-//     * Fetches a file from a remote server using HTTP GET
-//     *
-//     * @param $url
-//     * @return string The content (response body). NULL if something went wrong
-//     */
-//    public function fetchExternalData($url);
-//
-//    /**
-//     * Set the tutorial URL for a library. All versions of the library is set
-//     *
-//     * @param string $machineName
-//     * @param string $tutorialUrl
-//     */
-//    public function setLibraryTutorialUrl($machineName, $tutorialUrl);
+    /**
+     * Returns info for the current platform
+     *
+     * @return array
+     *   An associative array containing:
+     *   - name: The name of the plattform, for instance "Wordpress"
+     *   - version: The version of the pattform, for instance "4.0"
+     *   - h5pVersion: The version of the H5P plugin/module
+     */
+    public function getPlatformInfo();
+
+    /**
+     * Fetches a file from a remote server using HTTP GET
+     *
+     * @param $url
+     * @return string The content (response body). NULL if something went wrong
+     */
+    public function fetchExternalData($url);
+
+    /**
+     * Set the tutorial URL for a library. All versions of the library is set
+     *
+     * @param string $machineName
+     * @param string $tutorialUrl
+     */
+    public function setLibraryTutorialUrl($machineName, $tutorialUrl);
 
     /**
      * Show the user an error message
@@ -84,52 +83,52 @@ interface H5PFrameworkInterface {
      */
     public function getUploadedH5pPath();
 
-//    /**
-//     * Get a list of the current installed libraries
-//     *
-//     * @return array
-//     *   Associative array containg one entry per machine name.
-//     *   For each machineName there is a list of libraries(with different versions)
-//     */
-//    public function loadLibraries();
-//
-//    /**
-//     * Saving the unsupported library list
-//     *
-//     * @param array
-//     *   A list of unsupported libraries. Each list entry contains:
-//     *   - name: MachineName for the library
-//     *   - downloadUrl: URL to a location a new version of the library may be downloaded from
-//     *   - currentVersion: The unsupported version of the library installed on the system.
-//     *     This is an associative array containing:
-//     *     - major: The major version of the library
-//     *     - minor: The minor version of the library
-//     *     - patch: The patch version of the library
-//     */
-//    public function setUnsupportedLibraries($libraries);
-//
-//    /**
-//     * Returns unsupported libraries
-//     *
-//     * @return array
-//     *   A list of unsupported libraries. Each entry contains an associative array with:
-//     *   - name: MachineName for the library
-//     *   - downloadUrl: URL to a location a new version of the library may be downloaded from
-//     *   - currentVersion: The unsupported version of the library installed on the system.
-//     *     This is an associative array containing:
-//     *     - major: The major version of the library
-//     *     - minor: The minor version of the library
-//     *     - patch: The patch version of the library
-//     */
-//    public function getUnsupportedLibraries();
-//
-//    /**
-//     * Returns the URL to the library admin page
-//     *
-//     * @return string
-//     *   URL to admin page
-//     */
-//    public function getAdminUrl();
+    /**
+     * Get a list of the current installed libraries
+     *
+     * @return array
+     *   Associative array containg one entry per machine name.
+     *   For each machineName there is a list of libraries(with different versions)
+     */
+    public function loadLibraries();
+
+    /**
+     * Saving the unsupported library list
+     *
+     * @param array
+     *   A list of unsupported libraries. Each list entry contains:
+     *   - name: MachineName for the library
+     *   - downloadUrl: URL to a location a new version of the library may be downloaded from
+     *   - currentVersion: The unsupported version of the library installed on the system.
+     *     This is an associative array containing:
+     *     - major: The major version of the library
+     *     - minor: The minor version of the library
+     *     - patch: The patch version of the library
+     */
+    public function setUnsupportedLibraries($libraries);
+
+    /**
+     * Returns unsupported libraries
+     *
+     * @return array
+     *   A list of unsupported libraries. Each entry contains an associative array with:
+     *   - name: MachineName for the library
+     *   - downloadUrl: URL to a location a new version of the library may be downloaded from
+     *   - currentVersion: The unsupported version of the library installed on the system.
+     *     This is an associative array containing:
+     *     - major: The major version of the library
+     *     - minor: The minor version of the library
+     *     - patch: The patch version of the library
+     */
+    public function getUnsupportedLibraries();
+
+    /**
+     * Returns the URL to the library admin page
+     *
+     * @return string
+     *   URL to admin page
+     */
+    public function getAdminUrl();
 
 
     /**
@@ -211,34 +210,34 @@ interface H5PFrameworkInterface {
      *  Framework specific id identifying the content
      */
     public function saveContentData($content, $contentMainId = NULL);
-//
-//    /**
-//     * Insert new content.
-//     *
-//     * @param array $content
-//     *   An associative array containing:
-//     *   - id: The content id
-//     *   - params: The content in json format
-//     *   - library: An associative array containing:
-//     *     - libraryId: The id of the main library for this content
-//     * @param int $contentMainId
-//     *   Main id for the content if this is a system that supports versioning
-//     */
-//    public function insertContent($content, $contentMainId = NULL);
-//
-//    /**
-//     * Update old content.
-//     *
-//     * @param array $content
-//     *   An associative array containing:
-//     *   - id: The content id
-//     *   - params: The content in json format
-//     *   - library: An associative array containing:
-//     *     - libraryId: The id of the main library for this content
-//     * @param int $contentMainId
-//     *   Main id for the content if this is a system that supports versioning
-//     */
-//    public function updateContent($content, $contentMainId = NULL);
+
+    /**
+     * Insert new content.
+     *
+     * @param array $content
+     *   An associative array containing:
+     *   - id: The content id
+     *   - params: The content in json format
+     *   - library: An associative array containing:
+     *     - libraryId: The id of the main library for this content
+     * @param int $contentMainId
+     *   Main id for the content if this is a system that supports versioning
+     */
+    public function insertContent($content, $contentMainId = NULL);
+
+    /**
+     * Update old content.
+     *
+     * @param array $content
+     *   An associative array containing:
+     *   - id: The content id
+     *   - params: The content in json format
+     *   - library: An associative array containing:
+     *     - libraryId: The id of the main library for this content
+     * @param int $contentMainId
+     *   Main id for the content if this is a system that supports versioning
+     */
+    public function updateContent($content, $contentMainId = NULL);
 
     /**
      * Save what libraries a library is dependending on
@@ -1518,22 +1517,22 @@ class H5PCore {
         }
     }
 
-//    /**
-//     * Save content and clear cache.
-//     *
-//     * @param array $content
-//     * @return int Content ID
-//     */
-//    public function saveContent($content, $contentMainId = NULL) {
-//        if (isset($content['id'])) {
-//            $this->h5pF->updateContent($content, $contentMainId);
-//        }
-//        else {
-//            $content['id'] = $this->h5pF->insertContent($content, $contentMainId);
-//        }
-//
-//        return $content['id'];
-//    }
+    /**
+     * Save content and clear cache.
+     *
+     * @param array $content
+     * @return int Content ID
+     */
+    public function saveContent($content, $contentMainId = NULL) {
+        if (isset($content['id'])) {
+            $this->h5pF->updateContent($content, $contentMainId);
+        }
+        else {
+            $content['id'] = $this->h5pF->insertContent($content, $contentMainId);
+        }
+
+        return $content['id'];
+    }
 
     /**
      * Load content.
